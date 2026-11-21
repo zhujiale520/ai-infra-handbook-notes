@@ -1,0 +1,1676 @@
+{
+ "parts": [
+  {
+   "no": 1,
+   "title": "数学基础",
+   "first": 1,
+   "last": 11,
+   "pdf_page": 10
+  },
+  {
+   "no": 2,
+   "title": "神经网络基础",
+   "first": 12,
+   "last": 20,
+   "pdf_page": 93
+  },
+  {
+   "no": 3,
+   "title": "从文本到向量",
+   "first": 21,
+   "last": 24,
+   "pdf_page": 183
+  },
+  {
+   "no": 4,
+   "title": "Transformer核心",
+   "first": 25,
+   "last": 35,
+   "pdf_page": 217
+  },
+  {
+   "no": 5,
+   "title": "现代LLM架构",
+   "first": 36,
+   "last": 44,
+   "pdf_page": 304
+  },
+  {
+   "no": 6,
+   "title": "训练全流程",
+   "first": 45,
+   "last": 51,
+   "pdf_page": 372
+  },
+  {
+   "no": 7,
+   "title": "从零实现一个GPT模型",
+   "first": 52,
+   "last": 59,
+   "pdf_page": 420
+  },
+  {
+   "no": 8,
+   "title": "硬件与性能基础",
+   "first": 60,
+   "last": 67,
+   "pdf_page": 499
+  },
+  {
+   "no": 9,
+   "title": "推理基础",
+   "first": 68,
+   "last": 73,
+   "pdf_page": 549
+  },
+  {
+   "no": 10,
+   "title": "推理引擎与调度",
+   "first": 74,
+   "last": 82,
+   "pdf_page": 591
+  },
+  {
+   "no": 11,
+   "title": "算子与Kernel",
+   "first": 83,
+   "last": 89,
+   "pdf_page": 673
+  },
+  {
+   "no": 12,
+   "title": "模型压缩与加速",
+   "first": 90,
+   "last": 98,
+   "pdf_page": 750
+  },
+  {
+   "no": 13,
+   "title": "分布式与集合通信",
+   "first": 99,
+   "last": 109,
+   "pdf_page": 812
+  },
+  {
+   "no": 14,
+   "title": "分布式推理与集群",
+   "first": 110,
+   "last": 116,
+   "pdf_page": 886
+  },
+  {
+   "no": 15,
+   "title": "手写迷你推理引擎",
+   "first": 117,
+   "last": 125,
+   "pdf_page": 975
+  },
+  {
+   "no": 16,
+   "title": "解读nano-vllm",
+   "first": 126,
+   "last": 128,
+   "pdf_page": 1051
+  },
+  {
+   "no": 17,
+   "title": "主流推理引擎",
+   "first": 129,
+   "last": 133,
+   "pdf_page": 1102
+  },
+  {
+   "no": 18,
+   "title": "适配原理：把模型跑通",
+   "first": 134,
+   "last": 141,
+   "pdf_page": 1164
+  },
+  {
+   "no": 19,
+   "title": "调优原理：把模型跑快",
+   "first": 142,
+   "last": 147,
+   "pdf_page": 1243
+  },
+  {
+   "no": 20,
+   "title": "案例：海光DCU",
+   "first": 148,
+   "last": 153,
+   "pdf_page": 1287
+  }
+ ],
+ "lectures": [
+  {
+   "no": 1,
+   "title": "向量",
+   "pdf_page": 11,
+   "start_line": 1,
+   "part": 1,
+   "part_title": "数学基础",
+   "end_page": 20,
+   "chars": 7199
+  },
+  {
+   "no": 2,
+   "title": "点积与余弦相似度",
+   "pdf_page": 20,
+   "start_line": 1,
+   "part": 1,
+   "part_title": "数学基础",
+   "end_page": 30,
+   "chars": 8349
+  },
+  {
+   "no": 3,
+   "title": "矩阵乘法",
+   "pdf_page": 30,
+   "start_line": 1,
+   "part": 1,
+   "part_title": "数学基础",
+   "end_page": 39,
+   "chars": 7633
+  },
+  {
+   "no": 4,
+   "title": "线性变换",
+   "pdf_page": 39,
+   "start_line": 1,
+   "part": 1,
+   "part_title": "数学基础",
+   "end_page": 47,
+   "chars": 8453
+  },
+  {
+   "no": 5,
+   "title": "张量与形状",
+   "pdf_page": 47,
+   "start_line": 1,
+   "part": 1,
+   "part_title": "数学基础",
+   "end_page": 55,
+   "chars": 7378
+  },
+  {
+   "no": 6,
+   "title": "指数、对数与softmax",
+   "pdf_page": 55,
+   "start_line": 1,
+   "part": 1,
+   "part_title": "数学基础",
+   "end_page": 62,
+   "chars": 6488
+  },
+  {
+   "no": 7,
+   "title": "概率与采样",
+   "pdf_page": 62,
+   "start_line": 1,
+   "part": 1,
+   "part_title": "数学基础",
+   "end_page": 67,
+   "chars": 5003
+  },
+  {
+   "no": 8,
+   "title": "导数与链式法则",
+   "pdf_page": 67,
+   "start_line": 1,
+   "part": 1,
+   "part_title": "数学基础",
+   "end_page": 74,
+   "chars": 6180
+  },
+  {
+   "no": 9,
+   "title": "三角函数与旋转",
+   "pdf_page": 74,
+   "start_line": 1,
+   "part": 1,
+   "part_title": "数学基础",
+   "end_page": 81,
+   "chars": 5718
+  },
+  {
+   "no": 10,
+   "title": "浮点数与精度",
+   "pdf_page": 81,
+   "start_line": 1,
+   "part": 1,
+   "part_title": "数学基础",
+   "end_page": 87,
+   "chars": 6794
+  },
+  {
+   "no": 11,
+   "title": "计算量与FLOPs",
+   "pdf_page": 87,
+   "start_line": 1,
+   "part": 1,
+   "part_title": "数学基础",
+   "end_page": 94,
+   "chars": 6055
+  },
+  {
+   "no": 12,
+   "title": "感知机",
+   "pdf_page": 94,
+   "start_line": 1,
+   "part": 2,
+   "part_title": "神经网络基础",
+   "end_page": 108,
+   "chars": 10656
+  },
+  {
+   "no": 13,
+   "title": "神经元与线性层",
+   "pdf_page": 108,
+   "start_line": 1,
+   "part": 2,
+   "part_title": "神经网络基础",
+   "end_page": 118,
+   "chars": 9038
+  },
+  {
+   "no": 14,
+   "title": "激活函数",
+   "pdf_page": 118,
+   "start_line": 1,
+   "part": 2,
+   "part_title": "神经网络基础",
+   "end_page": 128,
+   "chars": 9280
+  },
+  {
+   "no": 15,
+   "title": "多层感知机",
+   "pdf_page": 128,
+   "start_line": 1,
+   "part": 2,
+   "part_title": "神经网络基础",
+   "end_page": 138,
+   "chars": 8693
+  },
+  {
+   "no": 16,
+   "title": "损失函数",
+   "pdf_page": 138,
+   "start_line": 1,
+   "part": 2,
+   "part_title": "神经网络基础",
+   "end_page": 147,
+   "chars": 9381
+  },
+  {
+   "no": 17,
+   "title": "梯度下降",
+   "pdf_page": 147,
+   "start_line": 1,
+   "part": 2,
+   "part_title": "神经网络基础",
+   "end_page": 156,
+   "chars": 7817
+  },
+  {
+   "no": 18,
+   "title": "反向传播",
+   "pdf_page": 156,
+   "start_line": 1,
+   "part": 2,
+   "part_title": "神经网络基础",
+   "end_page": 165,
+   "chars": 8682
+  },
+  {
+   "no": 19,
+   "title": "优化器",
+   "pdf_page": 165,
+   "start_line": 1,
+   "part": 2,
+   "part_title": "神经网络基础",
+   "end_page": 174,
+   "chars": 8830
+  },
+  {
+   "no": 20,
+   "title": "训练循环",
+   "pdf_page": 174,
+   "start_line": 1,
+   "part": 2,
+   "part_title": "神经网络基础",
+   "end_page": 184,
+   "chars": 9656
+  },
+  {
+   "no": 21,
+   "title": "分词与BPE",
+   "pdf_page": 184,
+   "start_line": 1,
+   "part": 3,
+   "part_title": "从文本到向量",
+   "end_page": 192,
+   "chars": 7643
+  },
+  {
+   "no": 22,
+   "title": "词嵌入",
+   "pdf_page": 192,
+   "start_line": 1,
+   "part": 3,
+   "part_title": "从文本到向量",
+   "end_page": 201,
+   "chars": 7636
+  },
+  {
+   "no": 23,
+   "title": "预测下一个token",
+   "pdf_page": 201,
+   "start_line": 1,
+   "part": 3,
+   "part_title": "从文本到向量",
+   "end_page": 209,
+   "chars": 6863
+  },
+  {
+   "no": 24,
+   "title": "自回归生成",
+   "pdf_page": 209,
+   "start_line": 1,
+   "part": 3,
+   "part_title": "从文本到向量",
+   "end_page": 218,
+   "chars": 7440
+  },
+  {
+   "no": 25,
+   "title": "位置编码",
+   "pdf_page": 218,
+   "start_line": 1,
+   "part": 4,
+   "part_title": "Transformer核心",
+   "end_page": 225,
+   "chars": 7263
+  },
+  {
+   "no": 26,
+   "title": "自注意力",
+   "pdf_page": 225,
+   "start_line": 1,
+   "part": 4,
+   "part_title": "Transformer核心",
+   "end_page": 235,
+   "chars": 9294
+  },
+  {
+   "no": 27,
+   "title": "因果掩码",
+   "pdf_page": 235,
+   "start_line": 1,
+   "part": 4,
+   "part_title": "Transformer核心",
+   "end_page": 243,
+   "chars": 7612
+  },
+  {
+   "no": 28,
+   "title": "多头注意力",
+   "pdf_page": 243,
+   "start_line": 1,
+   "part": 4,
+   "part_title": "Transformer核心",
+   "end_page": 252,
+   "chars": 8486
+  },
+  {
+   "no": 29,
+   "title": "残差连接",
+   "pdf_page": 252,
+   "start_line": 3,
+   "part": 4,
+   "part_title": "Transformer核心",
+   "end_page": 259,
+   "chars": 6912
+  },
+  {
+   "no": 30,
+   "title": "LayerNorm",
+   "pdf_page": 259,
+   "start_line": 1,
+   "part": 4,
+   "part_title": "Transformer核心",
+   "end_page": 266,
+   "chars": 6473
+  },
+  {
+   "no": 31,
+   "title": "前馈网络",
+   "pdf_page": 266,
+   "start_line": 1,
+   "part": 4,
+   "part_title": "Transformer核心",
+   "end_page": 272,
+   "chars": 6530
+  },
+  {
+   "no": 32,
+   "title": "Transformer Block",
+   "pdf_page": 272,
+   "start_line": 1,
+   "part": 4,
+   "part_title": "Transformer核心",
+   "end_page": 281,
+   "chars": 6738
+  },
+  {
+   "no": 33,
+   "title": "输出层",
+   "pdf_page": 281,
+   "start_line": 1,
+   "part": 4,
+   "part_title": "Transformer核心",
+   "end_page": 288,
+   "chars": 5698
+  },
+  {
+   "no": 34,
+   "title": "前向传播",
+   "pdf_page": 288,
+   "start_line": 1,
+   "part": 4,
+   "part_title": "Transformer核心",
+   "end_page": 296,
+   "chars": 7119
+  },
+  {
+   "no": 35,
+   "title": "参数量与计算量",
+   "pdf_page": 296,
+   "start_line": 1,
+   "part": 4,
+   "part_title": "Transformer核心",
+   "end_page": 305,
+   "chars": 8311
+  },
+  {
+   "no": 36,
+   "title": "Pre-Norm 与RMSNorm",
+   "pdf_page": 305,
+   "start_line": 1,
+   "part": 5,
+   "part_title": "现代LLM架构",
+   "end_page": 311,
+   "chars": 6481
+  },
+  {
+   "no": 37,
+   "title": "RoPE 旋转位置编码",
+   "pdf_page": 311,
+   "start_line": 1,
+   "part": 5,
+   "part_title": "现代LLM架构",
+   "end_page": 319,
+   "chars": 6977
+  },
+  {
+   "no": 38,
+   "title": "SwiGLU 与门控FFN",
+   "pdf_page": 319,
+   "start_line": 1,
+   "part": 5,
+   "part_title": "现代LLM架构",
+   "end_page": 326,
+   "chars": 7327
+  },
+  {
+   "no": 39,
+   "title": "MQA 与GQA",
+   "pdf_page": 326,
+   "start_line": 1,
+   "part": 5,
+   "part_title": "现代LLM架构",
+   "end_page": 333,
+   "chars": 6915
+  },
+  {
+   "no": 40,
+   "title": "MLA 多头潜在注意力",
+   "pdf_page": 333,
+   "start_line": 1,
+   "part": 5,
+   "part_title": "现代LLM架构",
+   "end_page": 340,
+   "chars": 7746
+  },
+  {
+   "no": 41,
+   "title": "MoE 混合专家",
+   "pdf_page": 340,
+   "start_line": 1,
+   "part": 5,
+   "part_title": "现代LLM架构",
+   "end_page": 351,
+   "chars": 9765
+  },
+  {
+   "no": 42,
+   "title": "长上下文技术",
+   "pdf_page": 351,
+   "start_line": 1,
+   "part": 5,
+   "part_title": "现代LLM架构",
+   "end_page": 359,
+   "chars": 5878
+  },
+  {
+   "no": 43,
+   "title": "架构演进对照",
+   "pdf_page": 359,
+   "start_line": 1,
+   "part": 5,
+   "part_title": "现代LLM架构",
+   "end_page": 365,
+   "chars": 6157
+  },
+  {
+   "no": 44,
+   "title": "混合架构与线性注意力",
+   "pdf_page": 365,
+   "start_line": 1,
+   "part": 5,
+   "part_title": "现代LLM架构",
+   "end_page": 373,
+   "chars": 5822
+  },
+  {
+   "no": 45,
+   "title": "预训练与数据",
+   "pdf_page": 373,
+   "start_line": 1,
+   "part": 6,
+   "part_title": "训练全流程",
+   "end_page": 380,
+   "chars": 5858
+  },
+  {
+   "no": 46,
+   "title": "Scaling Laws",
+   "pdf_page": 380,
+   "start_line": 1,
+   "part": 6,
+   "part_title": "训练全流程",
+   "end_page": 387,
+   "chars": 5903
+  },
+  {
+   "no": 47,
+   "title": "监督微调SFT",
+   "pdf_page": 387,
+   "start_line": 1,
+   "part": 6,
+   "part_title": "训练全流程",
+   "end_page": 394,
+   "chars": 6015
+  },
+  {
+   "no": 48,
+   "title": "RLHF 与DPO",
+   "pdf_page": 394,
+   "start_line": 1,
+   "part": 6,
+   "part_title": "训练全流程",
+   "end_page": 401,
+   "chars": 6829
+  },
+  {
+   "no": 49,
+   "title": "推理模型与强化学习",
+   "pdf_page": 401,
+   "start_line": 1,
+   "part": 6,
+   "part_title": "训练全流程",
+   "end_page": 407,
+   "chars": 6388
+  },
+  {
+   "no": 50,
+   "title": "LoRA 参数高效微调",
+   "pdf_page": 407,
+   "start_line": 1,
+   "part": 6,
+   "part_title": "训练全流程",
+   "end_page": 414,
+   "chars": 5722
+  },
+  {
+   "no": 51,
+   "title": "模型评测",
+   "pdf_page": 414,
+   "start_line": 1,
+   "part": 6,
+   "part_title": "训练全流程",
+   "end_page": 421,
+   "chars": 6066
+  },
+  {
+   "no": 52,
+   "title": "g0 · 语料与分词器",
+   "pdf_page": 421,
+   "start_line": 1,
+   "part": 7,
+   "part_title": "从零实现一个GPT模型",
+   "end_page": 433,
+   "chars": 9319
+  },
+  {
+   "no": 53,
+   "title": "g1 · 数据加载器与嵌入",
+   "pdf_page": 433,
+   "start_line": 1,
+   "part": 7,
+   "part_title": "从零实现一个GPT模型",
+   "end_page": 441,
+   "chars": 6475
+  },
+  {
+   "no": 54,
+   "title": "g2 · 因果多头注意力",
+   "pdf_page": 441,
+   "start_line": 1,
+   "part": 7,
+   "part_title": "从零实现一个GPT模型",
+   "end_page": 447,
+   "chars": 6477
+  },
+  {
+   "no": 55,
+   "title": "g3 · 组装GPT",
+   "pdf_page": 447,
+   "start_line": 1,
+   "part": 7,
+   "part_title": "从零实现一个GPT模型",
+   "end_page": 456,
+   "chars": 7677
+  },
+  {
+   "no": 56,
+   "title": "g4 · 预训练",
+   "pdf_page": 456,
+   "start_line": 1,
+   "part": 7,
+   "part_title": "从零实现一个GPT模型",
+   "end_page": 466,
+   "chars": 9986
+  },
+  {
+   "no": 57,
+   "title": "g5 · 解码与存档",
+   "pdf_page": 466,
+   "start_line": 1,
+   "part": 7,
+   "part_title": "从零实现一个GPT模型",
+   "end_page": 480,
+   "chars": 15486
+  },
+  {
+   "no": 58,
+   "title": "g6 · 装进GPT-2 的权重",
+   "pdf_page": 480,
+   "start_line": 1,
+   "part": 7,
+   "part_title": "从零实现一个GPT模型",
+   "end_page": 488,
+   "chars": 7243
+  },
+  {
+   "no": 59,
+   "title": "g7 · 指令微调",
+   "pdf_page": 488,
+   "start_line": 1,
+   "part": 7,
+   "part_title": "从零实现一个GPT模型",
+   "end_page": 500,
+   "chars": 8563
+  },
+  {
+   "no": 60,
+   "title": "GPU 架构",
+   "pdf_page": 500,
+   "start_line": 1,
+   "part": 8,
+   "part_title": "硬件与性能基础",
+   "end_page": 506,
+   "chars": 6391
+  },
+  {
+   "no": 61,
+   "title": "存储层级",
+   "pdf_page": 506,
+   "start_line": 1,
+   "part": 8,
+   "part_title": "硬件与性能基础",
+   "end_page": 512,
+   "chars": 6226
+  },
+  {
+   "no": 62,
+   "title": "RooØine 模型",
+   "pdf_page": 512,
+   "start_line": 1,
+   "part": 8,
+   "part_title": "硬件与性能基础",
+   "end_page": 518,
+   "chars": 5728
+  },
+  {
+   "no": 63,
+   "title": "低精度计算",
+   "pdf_page": 518,
+   "start_line": 1,
+   "part": 8,
+   "part_title": "硬件与性能基础",
+   "end_page": 523,
+   "chars": 5356
+  },
+  {
+   "no": 64,
+   "title": "互联",
+   "pdf_page": 523,
+   "start_line": 1,
+   "part": 8,
+   "part_title": "硬件与性能基础",
+   "end_page": 529,
+   "chars": 6684
+  },
+  {
+   "no": 65,
+   "title": "超节点",
+   "pdf_page": 529,
+   "start_line": 1,
+   "part": 8,
+   "part_title": "硬件与性能基础",
+   "end_page": 535,
+   "chars": 6125
+  },
+  {
+   "no": 66,
+   "title": "性能分析",
+   "pdf_page": 535,
+   "start_line": 1,
+   "part": 8,
+   "part_title": "硬件与性能基础",
+   "end_page": 542,
+   "chars": 7377
+  },
+  {
+   "no": 67,
+   "title": "理论vs 实测",
+   "pdf_page": 542,
+   "start_line": 1,
+   "part": 8,
+   "part_title": "硬件与性能基础",
+   "end_page": 550,
+   "chars": 7118
+  },
+  {
+   "no": 68,
+   "title": "Pre×ll 与Decode",
+   "pdf_page": 550,
+   "start_line": 1,
+   "part": 9,
+   "part_title": "推理基础",
+   "end_page": 557,
+   "chars": 6892
+  },
+  {
+   "no": 69,
+   "title": "KV Cache",
+   "pdf_page": 557,
+   "start_line": 1,
+   "part": 9,
+   "part_title": "推理基础",
+   "end_page": 565,
+   "chars": 7576
+  },
+  {
+   "no": 70,
+   "title": "TTFT、TPOT 与吞吐",
+   "pdf_page": 565,
+   "start_line": 1,
+   "part": 9,
+   "part_title": "推理基础",
+   "end_page": 571,
+   "chars": 6723
+  },
+  {
+   "no": 71,
+   "title": "显存账本",
+   "pdf_page": 571,
+   "start_line": 1,
+   "part": 9,
+   "part_title": "推理基础",
+   "end_page": 577,
+   "chars": 6800
+  },
+  {
+   "no": 72,
+   "title": "推理成本模型",
+   "pdf_page": 577,
+   "start_line": 1,
+   "part": 9,
+   "part_title": "推理基础",
+   "end_page": 584,
+   "chars": 6023
+  },
+  {
+   "no": 73,
+   "title": "解码策略",
+   "pdf_page": 584,
+   "start_line": 1,
+   "part": 9,
+   "part_title": "推理基础",
+   "end_page": 592,
+   "chars": 7329
+  },
+  {
+   "no": 74,
+   "title": "Continuous Batching",
+   "pdf_page": 592,
+   "start_line": 1,
+   "part": 10,
+   "part_title": "推理引擎与调度",
+   "end_page": 599,
+   "chars": 6919
+  },
+  {
+   "no": 75,
+   "title": "PagedAttention",
+   "pdf_page": 599,
+   "start_line": 1,
+   "part": 10,
+   "part_title": "推理引擎与调度",
+   "end_page": 610,
+   "chars": 10966
+  },
+  {
+   "no": 76,
+   "title": "Pre×x Cache",
+   "pdf_page": 610,
+   "start_line": 1,
+   "part": 10,
+   "part_title": "推理引擎与调度",
+   "end_page": 622,
+   "chars": 11191
+  },
+  {
+   "no": 77,
+   "title": "Chunked Pre×ll",
+   "pdf_page": 622,
+   "start_line": 1,
+   "part": 10,
+   "part_title": "推理引擎与调度",
+   "end_page": 629,
+   "chars": 7241
+  },
+  {
+   "no": 78,
+   "title": "调度与抢占",
+   "pdf_page": 629,
+   "start_line": 1,
+   "part": 10,
+   "part_title": "推理引擎与调度",
+   "end_page": 638,
+   "chars": 8523
+  },
+  {
+   "no": 79,
+   "title": "多LoRA 服务",
+   "pdf_page": 638,
+   "start_line": 1,
+   "part": 10,
+   "part_title": "推理引擎与调度",
+   "end_page": 646,
+   "chars": 7531
+  },
+  {
+   "no": 80,
+   "title": "约束解码",
+   "pdf_page": 646,
+   "start_line": 1,
+   "part": 10,
+   "part_title": "推理引擎与调度",
+   "end_page": 655,
+   "chars": 8279
+  },
+  {
+   "no": 81,
+   "title": "请求生命周期",
+   "pdf_page": 655,
+   "start_line": 1,
+   "part": 10,
+   "part_title": "推理引擎与调度",
+   "end_page": 665,
+   "chars": 8906
+  },
+  {
+   "no": 82,
+   "title": "推理压测实践",
+   "pdf_page": 665,
+   "start_line": 1,
+   "part": 10,
+   "part_title": "推理引擎与调度",
+   "end_page": 674,
+   "chars": 8428
+  },
+  {
+   "no": 83,
+   "title": "算子融合",
+   "pdf_page": 674,
+   "start_line": 1,
+   "part": 11,
+   "part_title": "算子与Kernel",
+   "end_page": 686,
+   "chars": 12372
+  },
+  {
+   "no": 84,
+   "title": "FlashAttention",
+   "pdf_page": 686,
+   "start_line": 1,
+   "part": 11,
+   "part_title": "算子与Kernel",
+   "end_page": 697,
+   "chars": 11473
+  },
+  {
+   "no": 85,
+   "title": "Decode 注意力Kernel",
+   "pdf_page": 697,
+   "start_line": 1,
+   "part": 11,
+   "part_title": "算子与Kernel",
+   "end_page": 708,
+   "chars": 11035
+  },
+  {
+   "no": 86,
+   "title": "CUDA 编程模型",
+   "pdf_page": 708,
+   "start_line": 1,
+   "part": 11,
+   "part_title": "算子与Kernel",
+   "end_page": 721,
+   "chars": 14167
+  },
+  {
+   "no": 87,
+   "title": "矩阵乘法Kernel 与Tensor Core",
+   "pdf_page": 721,
+   "start_line": 1,
+   "part": 11,
+   "part_title": "算子与Kernel",
+   "end_page": 727,
+   "chars": 6931
+  },
+  {
+   "no": 88,
+   "title": "Triton 入门",
+   "pdf_page": 727,
+   "start_line": 1,
+   "part": 11,
+   "part_title": "算子与Kernel",
+   "end_page": 740,
+   "chars": 13343
+  },
+  {
+   "no": 89,
+   "title": "CUDA Graph",
+   "pdf_page": 740,
+   "start_line": 1,
+   "part": 11,
+   "part_title": "算子与Kernel",
+   "end_page": 751,
+   "chars": 10780
+  },
+  {
+   "no": 90,
+   "title": "量化基础",
+   "pdf_page": 751,
+   "start_line": 1,
+   "part": 12,
+   "part_title": "模型压缩与加速",
+   "end_page": 759,
+   "chars": 7846
+  },
+  {
+   "no": 91,
+   "title": "权重量化：GPTQ 与AWQ",
+   "pdf_page": 759,
+   "start_line": 1,
+   "part": 12,
+   "part_title": "模型压缩与加速",
+   "end_page": 767,
+   "chars": 7817
+  },
+  {
+   "no": 92,
+   "title": "激活量化与SmoothQuant",
+   "pdf_page": 767,
+   "start_line": 1,
+   "part": 12,
+   "part_title": "模型压缩与加速",
+   "end_page": 773,
+   "chars": 6847
+  },
+  {
+   "no": 93,
+   "title": "FP8 与FP4",
+   "pdf_page": 773,
+   "start_line": 1,
+   "part": 12,
+   "part_title": "模型压缩与加速",
+   "end_page": 780,
+   "chars": 8469
+  },
+  {
+   "no": 94,
+   "title": "KV Cache 量化",
+   "pdf_page": 780,
+   "start_line": 1,
+   "part": 12,
+   "part_title": "模型压缩与加速",
+   "end_page": 786,
+   "chars": 7161
+  },
+  {
+   "no": 95,
+   "title": "KV Cache 压缩与驱逐",
+   "pdf_page": 786,
+   "start_line": 1,
+   "part": 12,
+   "part_title": "模型压缩与加速",
+   "end_page": 791,
+   "chars": 6116
+  },
+  {
+   "no": 96,
+   "title": "投机解码",
+   "pdf_page": 791,
+   "start_line": 1,
+   "part": 12,
+   "part_title": "模型压缩与加速",
+   "end_page": 798,
+   "chars": 7318
+  },
+  {
+   "no": 97,
+   "title": "EAGLE 与Medusa",
+   "pdf_page": 798,
+   "start_line": 1,
+   "part": 12,
+   "part_title": "模型压缩与加速",
+   "end_page": 805,
+   "chars": 6875
+  },
+  {
+   "no": 98,
+   "title": "蒸馏与剪枝",
+   "pdf_page": 805,
+   "start_line": 1,
+   "part": 12,
+   "part_title": "模型压缩与加速",
+   "end_page": 813,
+   "chars": 7302
+  },
+  {
+   "no": 99,
+   "title": "为什么需要多卡",
+   "pdf_page": 813,
+   "start_line": 1,
+   "part": 13,
+   "part_title": "分布式与集合通信",
+   "end_page": 819,
+   "chars": 5964
+  },
+  {
+   "no": 100,
+   "title": "集合通信原语",
+   "pdf_page": 819,
+   "start_line": 1,
+   "part": 13,
+   "part_title": "分布式与集合通信",
+   "end_page": 826,
+   "chars": 6562
+  },
+  {
+   "no": 101,
+   "title": "Ring 与Tree All-Reduce",
+   "pdf_page": 826,
+   "start_line": 1,
+   "part": 13,
+   "part_title": "分布式与集合通信",
+   "end_page": 833,
+   "chars": 7119
+  },
+  {
+   "no": 102,
+   "title": "通信代价模型",
+   "pdf_page": 833,
+   "start_line": 1,
+   "part": 13,
+   "part_title": "分布式与集合通信",
+   "end_page": 840,
+   "chars": 6977
+  },
+  {
+   "no": 103,
+   "title": "数据并行与ZeRO",
+   "pdf_page": 840,
+   "start_line": 1,
+   "part": 13,
+   "part_title": "分布式与集合通信",
+   "end_page": 846,
+   "chars": 6262
+  },
+  {
+   "no": 104,
+   "title": "混合精度训练与激活重计算",
+   "pdf_page": 846,
+   "start_line": 1,
+   "part": 13,
+   "part_title": "分布式与集合通信",
+   "end_page": 852,
+   "chars": 6770
+  },
+  {
+   "no": 105,
+   "title": "张量并行",
+   "pdf_page": 852,
+   "start_line": 1,
+   "part": 13,
+   "part_title": "分布式与集合通信",
+   "end_page": 858,
+   "chars": 6258
+  },
+  {
+   "no": 106,
+   "title": "流水并行",
+   "pdf_page": 858,
+   "start_line": 1,
+   "part": 13,
+   "part_title": "分布式与集合通信",
+   "end_page": 865,
+   "chars": 6878
+  },
+  {
+   "no": 107,
+   "title": "序列与上下文并行",
+   "pdf_page": 865,
+   "start_line": 1,
+   "part": 13,
+   "part_title": "分布式与集合通信",
+   "end_page": 872,
+   "chars": 7077
+  },
+  {
+   "no": 108,
+   "title": "专家并行与All-to-All",
+   "pdf_page": 872,
+   "start_line": 1,
+   "part": 13,
+   "part_title": "分布式与集合通信",
+   "end_page": 880,
+   "chars": 7217
+  },
+  {
+   "no": 109,
+   "title": "并行策略与拓扑映射",
+   "pdf_page": 880,
+   "start_line": 1,
+   "part": 13,
+   "part_title": "分布式与集合通信",
+   "end_page": 887,
+   "chars": 6574
+  },
+  {
+   "no": 110,
+   "title": "推理中的张量并行",
+   "pdf_page": 887,
+   "start_line": 1,
+   "part": 14,
+   "part_title": "分布式推理与集群",
+   "end_page": 894,
+   "chars": 6681
+  },
+  {
+   "no": 111,
+   "title": "MoE 推理与大规模专家并行",
+   "pdf_page": 894,
+   "start_line": 1,
+   "part": 14,
+   "part_title": "分布式推理与集群",
+   "end_page": 908,
+   "chars": 15747
+  },
+  {
+   "no": 112,
+   "title": "PD 分离",
+   "pdf_page": 908,
+   "start_line": 1,
+   "part": 14,
+   "part_title": "分布式推理与集群",
+   "end_page": 922,
+   "chars": 15700
+  },
+  {
+   "no": 113,
+   "title": "KV Cache 传输与分层存储",
+   "pdf_page": 922,
+   "start_line": 1,
+   "part": 14,
+   "part_title": "分布式推理与集群",
+   "end_page": 934,
+   "chars": 11466
+  },
+  {
+   "no": 114,
+   "title": "路由与负载均衡",
+   "pdf_page": 934,
+   "start_line": 1,
+   "part": 14,
+   "part_title": "分布式推理与集群",
+   "end_page": 944,
+   "chars": 10134
+  },
+  {
+   "no": 115,
+   "title": "超节点上的推理",
+   "pdf_page": 944,
+   "start_line": 1,
+   "part": 14,
+   "part_title": "分布式推理与集群",
+   "end_page": 963,
+   "chars": 20446
+  },
+  {
+   "no": 116,
+   "title": "SLO 与容量规划",
+   "pdf_page": 963,
+   "start_line": 1,
+   "part": 14,
+   "part_title": "分布式推理与集群",
+   "end_page": 976,
+   "chars": 11727
+  },
+  {
+   "no": 117,
+   "title": "一个推理引擎的组成",
+   "pdf_page": 976,
+   "start_line": 1,
+   "part": 15,
+   "part_title": "手写迷你推理引擎",
+   "end_page": 982,
+   "chars": 6160
+  },
+  {
+   "no": 118,
+   "title": "从权重文件到第一个token",
+   "pdf_page": 982,
+   "start_line": 1,
+   "part": 15,
+   "part_title": "手写迷你推理引擎",
+   "end_page": 992,
+   "chars": 7686
+  },
+  {
+   "no": 119,
+   "title": "KV Cache",
+   "pdf_page": 992,
+   "start_line": 1,
+   "part": 15,
+   "part_title": "手写迷你推理引擎",
+   "end_page": 1000,
+   "chars": 8627
+  },
+  {
+   "no": 120,
+   "title": "Continuous Batching",
+   "pdf_page": 1000,
+   "start_line": 1,
+   "part": 15,
+   "part_title": "手写迷你推理引擎",
+   "end_page": 1011,
+   "chars": 11052
+  },
+  {
+   "no": 121,
+   "title": "分页KV 管理",
+   "pdf_page": 1011,
+   "start_line": 1,
+   "part": 15,
+   "part_title": "手写迷你推理引擎",
+   "end_page": 1024,
+   "chars": 12247
+  },
+  {
+   "no": 122,
+   "title": "前缀缓存",
+   "pdf_page": 1024,
+   "start_line": 1,
+   "part": 15,
+   "part_title": "手写迷你推理引擎",
+   "end_page": 1029,
+   "chars": 4619
+  },
+  {
+   "no": 123,
+   "title": "权重量化",
+   "pdf_page": 1029,
+   "start_line": 1,
+   "part": 15,
+   "part_title": "手写迷你推理引擎",
+   "end_page": 1036,
+   "chars": 7424
+  },
+  {
+   "no": 124,
+   "title": "投机解码",
+   "pdf_page": 1036,
+   "start_line": 1,
+   "part": 15,
+   "part_title": "手写迷你推理引擎",
+   "end_page": 1045,
+   "chars": 8486
+  },
+  {
+   "no": 125,
+   "title": "时间花在哪里",
+   "pdf_page": 1045,
+   "start_line": 1,
+   "part": 15,
+   "part_title": "手写迷你推理引擎",
+   "end_page": 1052,
+   "chars": 6287
+  },
+  {
+   "no": 126,
+   "title": "nano-vllm 的整体结构",
+   "pdf_page": 1052,
+   "start_line": 1,
+   "part": 16,
+   "part_title": "解读nano-vllm",
+   "end_page": 1063,
+   "chars": 8206
+  },
+  {
+   "no": 127,
+   "title": "nano-vllm 多做了什么",
+   "pdf_page": 1063,
+   "start_line": 1,
+   "part": 16,
+   "part_title": "解读nano-vllm",
+   "end_page": 1084,
+   "chars": 15917
+  },
+  {
+   "no": 128,
+   "title": "动手改nano-vllm",
+   "pdf_page": 1084,
+   "start_line": 1,
+   "part": 16,
+   "part_title": "解读nano-vllm",
+   "end_page": 1103,
+   "chars": 19808
+  },
+  {
+   "no": 129,
+   "title": "vLLM 的架构",
+   "pdf_page": 1103,
+   "start_line": 1,
+   "part": 17,
+   "part_title": "主流推理引擎",
+   "end_page": 1120,
+   "chars": 16275
+  },
+  {
+   "no": 130,
+   "title": "vLLM 的分布式服务",
+   "pdf_page": 1120,
+   "start_line": 1,
+   "part": 17,
+   "part_title": "主流推理引擎",
+   "end_page": 1138,
+   "chars": 14477
+  },
+  {
+   "no": 131,
+   "title": "SGLang 的架构",
+   "pdf_page": 1138,
+   "start_line": 1,
+   "part": 17,
+   "part_title": "主流推理引擎",
+   "end_page": 1152,
+   "chars": 9853
+  },
+  {
+   "no": 132,
+   "title": "其他引擎与规模化部署",
+   "pdf_page": 1152,
+   "start_line": 1,
+   "part": 17,
+   "part_title": "主流推理引擎",
+   "end_page": 1158,
+   "chars": 4925
+  },
+  {
+   "no": 133,
+   "title": "怎么读一个大型引擎的源码",
+   "pdf_page": 1158,
+   "start_line": 1,
+   "part": 17,
+   "part_title": "主流推理引擎",
+   "end_page": 1165,
+   "chars": 5985
+  },
+  {
+   "no": 134,
+   "title": "换一块卡要重做什么",
+   "pdf_page": 1165,
+   "start_line": 1,
+   "part": 18,
+   "part_title": "适配原理：把模型跑通",
+   "end_page": 1175,
+   "chars": 9558
+  },
+  {
+   "no": 135,
+   "title": "国产与NVIDIA 硬件差异",
+   "pdf_page": 1175,
+   "start_line": 1,
+   "part": 18,
+   "part_title": "适配原理：把模型跑通",
+   "end_page": 1184,
+   "chars": 8780
+  },
+  {
+   "no": 136,
+   "title": "编程模型与CUDA 迁移",
+   "pdf_page": 1184,
+   "start_line": 1,
+   "part": 18,
+   "part_title": "适配原理：把模型跑通",
+   "end_page": 1193,
+   "chars": 8716
+  },
+  {
+   "no": 137,
+   "title": "框架怎么接入新硬件",
+   "pdf_page": 1193,
+   "start_line": 1,
+   "part": 18,
+   "part_title": "适配原理：把模型跑通",
+   "end_page": 1202,
+   "chars": 7070
+  },
+  {
+   "no": 138,
+   "title": "图模式与编译",
+   "pdf_page": 1202,
+   "start_line": 1,
+   "part": 18,
+   "part_title": "适配原理：把模型跑通",
+   "end_page": 1210,
+   "chars": 6875
+  },
+  {
+   "no": 139,
+   "title": "精度对齐",
+   "pdf_page": 1210,
+   "start_line": 1,
+   "part": 18,
+   "part_title": "适配原理：把模型跑通",
+   "end_page": 1223,
+   "chars": 11925
+  },
+  {
+   "no": 140,
+   "title": "算子缺口：盘点与自写",
+   "pdf_page": 1223,
+   "start_line": 1,
+   "part": 18,
+   "part_title": "适配原理：把模型跑通",
+   "end_page": 1231,
+   "chars": 6763
+  },
+  {
+   "no": 141,
+   "title": "实操· 把miniinfer 移植到非CUDA",
+   "pdf_page": 1231,
+   "start_line": 1,
+   "part": 18,
+   "part_title": "适配原理：把模型跑通",
+   "end_page": 1244,
+   "chars": 12104
+  },
+  {
+   "no": 142,
+   "title": "在新硬件上做性能分析",
+   "pdf_page": 1244,
+   "start_line": 1,
+   "part": 19,
+   "part_title": "调优原理：把模型跑快",
+   "end_page": 1252,
+   "chars": 7446
+  },
+  {
+   "no": 143,
+   "title": "矩阵乘法与注意力的适配",
+   "pdf_page": 1252,
+   "start_line": 1,
+   "part": 19,
+   "part_title": "调优原理：把模型跑快",
+   "end_page": 1261,
+   "chars": 8410
+  },
+  {
+   "no": 144,
+   "title": "用Triton 与厂商语言写kernel",
+   "pdf_page": 1261,
+   "start_line": 1,
+   "part": 19,
+   "part_title": "调优原理：把模型跑快",
+   "end_page": 1267,
+   "chars": 5943
+  },
+  {
+   "no": 145,
+   "title": "低精度与量化的取舍",
+   "pdf_page": 1267,
+   "start_line": 1,
+   "part": 19,
+   "part_title": "调优原理：把模型跑快",
+   "end_page": 1274,
+   "chars": 7910
+  },
+  {
+   "no": 146,
+   "title": "集合通信库与多卡互联",
+   "pdf_page": 1274,
+   "start_line": 1,
+   "part": 19,
+   "part_title": "调优原理：把模型跑快",
+   "end_page": 1280,
+   "chars": 6134
+  },
+  {
+   "no": 147,
+   "title": "推理引擎的硬件插件",
+   "pdf_page": 1280,
+   "start_line": 1,
+   "part": 19,
+   "part_title": "调优原理：把模型跑快",
+   "end_page": 1288,
+   "chars": 6904
+  },
+  {
+   "no": 148,
+   "title": "海光DCU 的软硬件栈",
+   "pdf_page": 1288,
+   "start_line": 1,
+   "part": 20,
+   "part_title": "案例：海光DCU",
+   "end_page": 1296,
+   "chars": 7084
+  },
+  {
+   "no": 149,
+   "title": "从CUDA 到DCU：迁移与版本矩阵",
+   "pdf_page": 1296,
+   "start_line": 1,
+   "part": 20,
+   "part_title": "案例：海光DCU",
+   "end_page": 1303,
+   "chars": 7158
+  },
+  {
+   "no": 150,
+   "title": "读vllm-plugin-das：平台与运行时补丁",
+   "pdf_page": 1303,
+   "start_line": 1,
+   "part": 20,
+   "part_title": "案例：海光DCU",
+   "end_page": 1316,
+   "chars": 9341
+  },
+  {
+   "no": 151,
+   "title": "DCU 上的矩阵乘：hipBLASLt 与小M",
+   "pdf_page": 1316,
+   "start_line": 1,
+   "part": 20,
+   "part_title": "案例：海光DCU",
+   "end_page": 1326,
+   "chars": 8619
+  },
+  {
+   "no": 152,
+   "title": "DCU 上的注意力、量化与通信",
+   "pdf_page": 1326,
+   "start_line": 1,
+   "part": 20,
+   "part_title": "案例：海光DCU",
+   "end_page": 1335,
+   "chars": 7432
+  },
+  {
+   "no": 153,
+   "title": "模型上线DCU 的完整清单",
+   "pdf_page": 1335,
+   "start_line": 1,
+   "part": 20,
+   "part_title": "案例：海光DCU",
+   "end_page": 1342,
+   "chars": 5254
+  }
+ ]
+}

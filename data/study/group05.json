@@ -1,0 +1,130 @@
+[
+  {
+    "no": 33,
+    "title": "输出层",
+    "one": "输出层用 d×V 的 lm_head 加 softmax，给出词表概率。",
+    "points": [
+      "lm_head 是 d×V 矩阵，一列即一个词的输出向量，logit 是点积。",
+      "整句算：[s,d] 乘 [d,V] 得 [s,V]，每位置一行 V 个打分。",
+      "推理只算最后一行，训练时每个位置都算，logits 需数 GiB 显存。",
+      "TinyLM 的 Wlm 4×6，“AI”6 个打分最高的是“推理”1.184。",
+      "权重绑定令 Wlm = Eᵀ 省一份参数，GPT-2 这样做，Llama-3 不绑定。",
+      "Llama-3-8B 的 lm_head 有 5.25 亿参数，比任何单个线性层都大。"
+    ],
+    "formula": "logits = x · W_lm；p_i = e^(logit_i) / Σ_j e^(logit_j)",
+    "nums": "TinyLM Wlm 4×6；softmax 后“推理”0.441；Llama-3-8B 4096×128256 = 525M 参数；每 token 1.05 GFLOPs，占 2N 的 6.5%；一个位置 logits 用 FP32 存约 501 KiB",
+    "pit": "logits 不是概率：可正可负、加起来不为 1；Pre-Norm 模型在 lm_head 前还要补一个最终 RMSNorm。"
+  },
+  {
+    "no": 34,
+    "title": "前向传播",
+    "one": "一次前向=查表、位置编码、N 个 Block、lm_head、softmax。",
+    "points": [
+      "24 站含：查嵌入、加位置编码、每层 QKV、注意力、拼头、残差、LN、FFN。",
+      "第 2 到 22 站形状始终是 [4,4]，只有 FFN 中间变宽到 8 维。",
+      "因果掩码使“我爱”最后一行等于整句第 2 行，前缀可缓存。",
+      "TinyLM 预测“推理”0.441，贪心生成得“我推理我推理”。",
+      "Llama-3-8B 同一路径，每 token 约 160 亿 FLOPs。",
+      "KV Cache 省 K/V 重算，FlashAttention 省掉注意力矩阵写显存。"
+    ],
+    "formula": "x = E[ids] + 位置编码；每层 x = LN(x + Attn(x))，x = LN(x + FFN(x))；p = softmax(x·W_lm)",
+    "nums": "24 站；TinyLM d=4、2 层、2 头、FFN 8 维、词表 6；Llama-3-8B 每 token 约 2×80 亿 = 160 亿 FLOPs",
+    "pit": "一次前向不等于推理：推理是把前向放进循环（prefill 一次、decode 多次）；训练在前向之后还有反向。"
+  },
+  {
+    "no": 35,
+    "title": "参数量与计算量",
+    "one": "每 token 推理≈2N、训练≈6N FLOPs，参数按结构逐项相加。",
+    "points": [
+      "每层注意力 2d²+2d·kv；FFN 用 SwiGLU 是 3d·d_ff。",
+      "N 按嵌入表、每层注意力与 FFN、输出层逐项相加，结果与官方一致。",
+      "参数里 FFN 占 70.2%、注意力 16.7%，嵌入与输出层 13.1%。",
+      "每个参与矩阵乘法的参数对每 token 贡献 2 FLOPs，前向≈2(N−V·d)。",
+      "上下文 8192 时注意力打分占 22.2%，131072 时占 82.1%。",
+      "2N、6N 忽略嵌入、打分、归一化与 softmax，只在上下文不长时准。"
+    ],
+    "formula": "N = V·d + L·(2d² + 2d·kv + 3d·d_ff + 2d) + d + V·d；每 token 前向 ≈ 2(N−V·d) + 4·L·s·d；训练 ≈ 6N",
+    "nums": "Llama-3-8B 8,030,261,248；Llama-3-70B 70,553,706,496；8B 每 token 15.01(s=0)/19.30(s=8192) GFLOPs，训练 48.18；BF16 权重 14.96 GiB≈16.1 GB；KV Cache 每 token 128 KiB，8192×16 请求 16 GiB",
+    "pit": "FLOPs 是运算次数、FLOPS 是每秒次数；按 MACs 统计会差一半；MoE 的 2N 要用激活参数（V3 总 6710 亿、激活约 370 亿）。"
+  },
+  {
+    "no": 36,
+    "title": "Pre-Norm 与 RMSNorm",
+    "one": "归一化挪到子层入口成 Pre-Norm，并换成 RMSNorm。",
+    "points": [
+      "Post-Norm 是 x←LN(x+F(x))，每层捷径后都接归一化，梯度被逐层缩放。",
+      "Pre-Norm 是 x←x+F(Norm(x))，残差流成纯加法链，梯度直达输入。",
+      "RMSNorm 不减均值、没有 β，只用 γ 按 √(mean(x²)+ϵ) 缩放。",
+      "同一组数两者结果接近但不相同，差别来自 −0.0434 的均值。",
+      "Fused Add-RMSNorm 省掉一半以上 HBM 往返，残差与归一化同内核完成。",
+      "FP16 上限 65504，求平方和会溢出，须在寄存器内 upcast 到 FP32。"
+    ],
+    "formula": "Pre-Norm: x ← x + F(Norm(x))；RMSNorm(x) = γ ⊙ x / √(mean(x²) + ϵ)",
+    "nums": "96 层回传梯度 Post-Norm 5508.33、Pre-Norm 21.374；同一行 LayerNorm 得 (−0.5327, −1.3091, 0.5295, 1.3123)，RMSNorm 得 (−0.5986, −1.3732, 0.4612, 1.2422)；Llama-3-8B RMSNorm 262,144 参数(1.0 MiB)，LayerNorm 524,288(2.0 MiB)",
+    "pit": "RMSNorm 不对整体平移不变（平移会改变输出）；Gemma 用 x*(1+gamma) 且 gamma 初始化为 0，按全 1 加载会错乱。"
+  },
+  {
+    "no": 37,
+    "title": "RoPE 旋转位置编码",
+    "one": "RoPE 在注意力里按位置旋转 q、k，使 q·k 只取决于位置差。",
+    "points": [
+      "旋转不改变向量长度，只改变方向；二维旋转用 cos、sin 的矩阵。",
+      "q 转 mθ、k 转 nθ，夹角只变 (m−n)θ，点积只取决于位置差。",
+      "d 维配成 d/2 个平面，第 i 对转速 base^(−2i/d)，与正弦编码同源。",
+      "位置差 2 的三组点积都是 0.0069，差 3 的 (3,0) 是 −0.1178。",
+      "只旋转 q、k，不碰 v；KV Cache 存旋转后的 k，cos/sin 预算成查表。",
+      "远距离衰减：q=k=全 1 的 128 维，距离 1000 时点积降到 20.4。"
+    ],
+    "formula": "θ_i = base^(−2i/d)，q 转 mθ、k 转 nθ ⇒ q·k 只依赖 m−n",
+    "nums": "TinyLM 4 维 2 对，θ0=1、θ1=0.01；base 10000 时最慢一对 54410 个位置转一圈；Llama-3 用 500000，最慢约 2,559,196 个位置；最快一对 6.3 个位置一圈；Llama-3 每头 128 维即 64 对；衰减 128.0/124.2/85.6/61.1/20.4/−3.6 对应距离 0/1/10/100/1000/10000",
+    "pit": "两两配对有交替配对与半半拆分两种，数学等价但旋转基准不同，搞反会直接输出乱码；Hugging Face 的 Llama 用半半拆分。"
+  },
+  {
+    "no": 38,
+    "title": "SwiGLU 与门控 FFN",
+    "one": "门控 FFN 把升维拆成门 g 与内容 u，SiLU(g)⊙u 后降维。",
+    "points": [
+      "两路升维 g=x·W_gate、u=x·W_up，逐元素相乘后乘 W_down 降维。",
+      "SiLU(z)=z·σ(z) 给出连续开度，可正可负，最低约 −0.28。",
+      "门开 0.886 的神经元几乎全放行 1.455，门近 0 的输出接近 0。",
+      "Shazeer 2020 年论文：等参数下带门的版本都优于 ReLU、GELU。",
+      "等参数要 d_ff≈8d/3；d=4096 时取 10922，参数 134.2M。",
+      "W_gate 与 W_up 拼成 [d,2d_ff] 一次 GEMM，激活在片上完成。"
+    ],
+    "formula": "h = SiLU(x·W_gate) ⊙ (x·W_up)；y = h·W_down；等参数时 d_ff ≈ 8d/3",
+    "nums": "TinyLM 8 个神经元，y=(−0.347, 1.904, 0.364, −1.628)；门偏移 −3/+3 时 |h| 之和 1.271 对 23.745；Llama-3-8B d_ff=14336(3.5d)，每层 176.2M 参数，权重拼成 4096×28672",
+    "pit": "门不是 0/1 开关；GLU 是两路相乘的结构、GELU 是激活函数，门用 GELU 叫 GEGLU，用 SiLU 才叫 SwiGLU；内容 u 不过激活。"
+  },
+  {
+    "no": 39,
+    "title": "MQA 与 GQA",
+    "one": "MQA 全部共用一组 K、V，GQA 分组共用，缓存随组数缩小。",
+    "points": [
+      "MHA 每 token 512 KiB，16 个长请求就是 64 GiB。",
+      "MQA 只留一组 K、V（2019，Shazeer），缓存降到 1/32，效果有损。",
+      "GQA 把 32 个查询头分 8 组，每组 4 头共用，每 token 128 KiB。",
+      "查询头与注意力权重不变，变少的只是被缓存的 K、V；GQA 介于两者。",
+      "底层不复制 KV：只留 n_kv 份，线程按组号索引在 SRAM 复用。",
+      "算术强度从 1 升到 4 FLOP/Byte：读一个 k 服务同组 4 个头。"
+    ],
+    "formula": "kv_group = h ÷ (n_h ÷ n_kv)；每 token KV Cache = 2 × L × n_kv × d_h × 字节数",
+    "nums": "Llama-3-8B：MHA 每 token 512 KiB、GQA(8) 128 KiB、MQA 16 KiB；8192 token×16 请求 64/16/2 GiB；W_k 与 W_v 每层 33.6M/8.4M/1.0M 参数",
+    "pit": "把 MHA 的头直接取平均合并成 GQA 会明显掉效果，要再训练约原训练量 5%；KV 头数还要能被张量并行度整除，8 头切不了 16 卡。"
+  },
+  {
+    "no": 40,
+    "title": "MLA 多头潜在注意力",
+    "one": "MLA 不缓存 K、V，每 token 只存 512+64=576 个数。",
+    "points": [
+      "先压缩再还原：c=x·W_DKV，k=c·W_UK，v=c·W_UV，只缓存 c。",
+      "直接缓存 K、V 时每层每 token 是 32768 个数，而 c 只有 512 维。",
+      "矩阵吸收：q·k=(q·W_UKᵀ)·c，Decode 时历史 K、V 从不展开。",
+      "解耦 RoPE：128 维内容部分不旋转可吸收，另留 64 维 k_R 做位置。",
+      "Prefill 展开成多头调 FlashAttention，Decode 走吸收省带宽。",
+      "只有 576 个数，比 8 组 GQA 小 3.56 倍，效果反超同尺寸 MHA。"
+    ],
+    "formula": "c = x·W_DKV，k = c·W_UK，v = c·W_UV；q·k = (q·W_UKᵀ)·c + q_R·k_R",
+    "nums": "DeepSeek-V3：d=7168、61 层、128 头、每头 k/v 各 128 维；c 512 维、k_R 64 维；每层每 token 576 个数，61 层 68.6 KiB；MHA 3904 KiB(56.89×)、GQA 244 KiB(3.56×)、MQA 30.5 KiB(0.44×)；q_lora_rank 1536",
+    "pit": "MLA 不减少头数，每个头仍有独立 K、V，只是约束在低秩子空间；吸收是纯代数等价，不改变模型。"
+  }
+]

@@ -1,0 +1,130 @@
+[
+  {
+    "no": 65,
+    "title": "超节点",
+    "one": "超节点把 scale-up 域扩到几十上百卡，All-to-All 受益最大",
+    "points": [
+      "scale-up 用 NVLink 直连，H100 每卡 450 GB/s、B200 900 GB/s，可 load/store 对方显存。",
+      "scale-out 用 InfiniBand/RoCE，规模不限但每卡约 50 GB/s，差 9 倍且是消息语义。",
+      "域大小受铜缆一两米距离、交换芯片端口数、几十上百千瓦功耗与散热限制。",
+      "GB200 NVL72 是 72 卡、每卡双向 1.8 TB/s；CloudMatrix 384 用 384 张昇腾 910C。",
+      "64 卡 1 GB All-Reduce：8.39 → 2.26 ms（3.7 倍）；All-to-All：17.79 → 1.12 ms（16 倍）。",
+      "对分带宽 1.6 对 28.8 TB/s（18 倍）；能分层的受益有限，All-to-All 受益最大。"
+    ],
+    "formula": "分层 All-Reduce：机内 Reduce-Scatter（缩成 1/8）→ 机间对 1/8 做 All-Reduce → 机内 All-Gather",
+    "nums": "机内 450 GB/s；机间 50 GB/s；NVL72 72 卡、双向 1.8 TB/s；64 卡 All-Reduce 8.39→2.26 ms；All-to-All 17.79→1.12 ms；对分 1.6 vs 28.8 TB/s",
+    "pit": "超节点不是更快的单卡，只改变卡间连接；「一个机柜」不等于「一个 scale-up 域」，看连接而非物理边界。"
+  },
+  {
+    "no": 66,
+    "title": "性能分析",
+    "one": "读时间线四步：GPU 空等、按类别分账、找最耗时 kernel、和屋顶比",
+    "points": [
+      "Profiler 粗看、Nsight Systems 看谁在等谁、Nsight Compute 深挖单个 kernel。",
+      "Llama-3-8B、TP=4、decode 一步 3.09 ms，GPU 忙 91%、空等 0.27 ms。",
+      "空等来自小 kernel 间 CPU 发射跟不上，换 CUDA Graph 后一步降到 2.84 ms。",
+      "分账：矩阵乘 1.69 ms（55%）、逐元素 0.49、通信 0.35、注意力 0.30；大头 gate_up 0.80 ms。",
+      "gate_up 一次 24.9 μs 读 58.7 MB，实际带宽 2.36 TB/s，只到屋顶 3.35 的 70%。",
+      "测量要 synchronize 或 CUDA 事件、先预热、在真实负载下测，并用端到端计时复核。"
+    ],
+    "formula": "优化收益上限 = 屋顶 ÷ 实测；只占 1% 的 kernel 优化到零也只快 1%",
+    "nums": "一步 3.09 ms；384 个 kernel；GPU 忙 91%；空等 0.27 ms；CUDA Graph 2.84 ms；gate_up 24.9 μs / 58.7 MB / 2.36 TB/s；屋顶 3.35 TB/s",
+    "pit": "nvidia-smi 的利用率只说明有 kernel 在跑，不代表用上了带宽和算力；模拟时间线不是测量。"
+  },
+  {
+    "no": 67,
+    "title": "理论 vs 实测",
+    "one": "读内存标定带宽、大矩阵乘标定算力，得到真实屋顶再预测 decode 上限",
+    "points": [
+      "DGX Spark 用 GB10，128 GB 统一内存、带宽 273 GB/s、BF16 约 125 TFLOPS（待核实）。",
+      "H100 是 989 TFLOPS、3.35 TB/s；带宽差 12 倍、算力差 8 倍，屋脊点 458 对 295。",
+      "读 4 GB 内存标定带宽，实测通常只有标称的 70%~90%，之后都要乘这个系数。",
+      "4096³ BF16 矩阵乘标定算力，强度约 1365，cuBLAS 通常达峰值的 60%~80%。",
+      "线性层 1、8、64 个 token 都约 0.43 ms、512 个约 0.50 ms，强度约等于 token 数。",
+      "decode 上限≈带宽÷权重：8B BF16 16.1 GB，DGX Spark 17、H100 209 tok/s。"
+    ],
+    "formula": "t = max(FLOPs / 峰值算力, 字节 / 带宽)；decode 速度上限 ≈ 带宽 ÷ 权重字节数",
+    "nums": "273 GB/s；989 TFLOPS / 3.35 TB/s；屋脊点 458 vs 295；读 4 GB 14.65 vs 1.19 ms；4096³ 1.10 vs 0.14 ms；4 bit 8B 60 tok/s；70B 4 bit 39.7 GB 约 7 tok/s",
+    "pit": "理论值是上限不是应该值，超过 100% 多半是没同步或数据还在缓存里；统一内存不是 HBM。"
+  },
+  {
+    "no": 68,
+    "title": "Prefill 与 Decode",
+    "one": "prefill 算力受限、decode 带宽受限，两种瓶颈决定两套优化",
+    "points": [
+      "耗时 ≈ max(计算/算力, 字节/带宽)；H100 的 989 TFLOPS ÷ 3.35 TB/s ≈ 295 FLOPs/字节。",
+      "强度大于 295 计算受限，小于 295 带宽受限，阶段瓶颈就看这个比值。",
+      "prefill 1000 token：计算 15.44 ms、读写 4.85 ms，强度 927，卡在算力。",
+      "decode 1 token：计算 0.016 ms、读写 4.83 ms，强度 0.93，算力只用 0.3%。",
+      "提示 1000 生成 200：15.4 + 967 ≈ 983 ms，decode 占 98%。",
+      "prefill 减计算（FlashAttention、低精度），decode 减读取（批处理、量化、GQA/MLA）。"
+    ],
+    "formula": "耗时 ≈ max(计算量/算力, 读写字节/带宽)；算术强度 = FLOPs/字节，H100 分界 295；prefill 强度≈提示长度",
+    "nums": "989 TFLOPS；3.35 TB/s；295 FLOPs/字节；prefill 15.44 ms（强度 927）；decode 4.83 ms（强度 0.93，算力 0.3%）；decode 占 98%",
+    "pit": "decode 慢不是因为算得多（计算量只有 prefill 的千分之一），而是每步都要把 16 GB 权重整个读一遍。"
+  },
+  {
+    "no": 69,
+    "title": "KV Cache",
+    "one": "只存每层的 k、v，decode 只算新 token，计算量降约 750 倍",
+    "points": [
+      "因果掩码让历史 token 输出不变，只需缓存每层的 k、v，不缓存 q。",
+      "decode 每步只算新 token 的 q、k、v，k、v 入缓存，再用 q 对全部缓存打分加权。",
+      "prefill 一次写入整段提示各层所有 token 的 k、v，之后每步只写一组。",
+      "各 1000 token：无缓存 149.95 万位置 22.5 PFLOPs，有缓存 1999 位置 30 TFLOPs。",
+      "代价：每 token 128 KiB，请求结束 250 MiB，随长度与并发线性涨，16×8192 就 16 GiB。",
+      "一层形状 [请求数, KV 头数, 序列长, 每头维度]；decode 用 FlashDecoding 切段并行读缓存。"
+    ],
+    "formula": "每 token KV 字节 = 2 × 层数 × KV 头数 × 每头维度 × 字节数；Llama-3-8B：2×32×8×128×2 = 128 KiB",
+    "nums": "TinyLM 位置 7 对 28；无缓存 1,499,500 位置 / 22.5 PFLOPs；有缓存 1,999 位置 / 30 TFLOPs；约 750 倍；每 token 128 KiB；250 MiB",
+    "pit": "缓存只在一次请求内有效，请求结束即释放；开头相同的下一个请求默认仍要重新 prefill，除非用前缀缓存。"
+  },
+  {
+    "no": 70,
+    "title": "TTFT、TPOT 与吞吐",
+    "one": "TTFT 看 prefill、TPOT 看 decode；吞吐靠并发，上限看显存",
+    "points": [
+      "总耗时 ≈ TTFT + TPOT × (生成数 − 1)；TPOT 几十毫秒内用户就觉流畅。",
+      "单请求：TTFT 15.5 ms、TPOT 4.85 ms 即 206 token/s，算力只用 0.3%。",
+      "批处理共享一次权重读取；KV 不能共享，一步读写 ≈ 16 GB + b × 192 MiB。",
+      "并发 1→8：TPOT 4.85→5.27、吞吐 206→1,517；并发 128：TPOT 12.49、吞吐 10,251。",
+      "显存是硬上限：每请求 2048 token 占 256 MiB KV，80 GB 卡最多约 238 个。",
+      "并发 256 强度也只约 60，长上下文 decode 始终带宽受限。"
+    ],
+    "formula": "总耗时 ≈ TTFT + TPOT × (N_out − 1)；TPOT = max(计算, 读写)；总吞吐 = b / TPOT",
+    "nums": "TTFT 15.5 ms；TPOT 4.85→12.49 ms；吞吐 206→10,251 token/s；上限约 238 个请求（TPOT 19.1 ms、12,463 token/s）；并发 256 强度约 60",
+    "pit": "吞吐高不等于每个用户都快：并发 128 时总吞吐是 50 倍，单请求却从 206 降到 80 token/s。"
+  },
+  {
+    "no": 71,
+    "title": "显存账本",
+    "one": "权重、KV Cache、激活、开销四项算清，剩下的显存全给 KV Cache",
+    "points": [
+      "80 GB 卡按 90% 只有 67.1 GiB；8B 的 BF16 权重 16.06 GB 即 15.0 GiB。",
+      "每 token KV = 2×层数×KV 头数×每头维度×字节数，8B 的 BF16 是 128 KiB。",
+      "激活按一次处理的 token 数预留，prefill 8192 token 约 0.91 GiB；其他约 1.9 GiB。",
+      "8B 单卡剩 49.3 GiB 给 KV，约 40.4 万 token，即 99 个 4096 token 请求。",
+      "权重与 KV 都换 FP8：权重 7.5 GiB、每 token 64 KiB，能放 227 个请求。",
+      "70B 的 BF16 131.4 GiB、FP8 65.7 GiB 单卡与两卡都放不下 KV；四卡能放 102 个。"
+    ],
+    "formula": "显存 = 权重 + KV Cache + 激活 + 其他开销（再留约 10%）；最大并发 = 剩余 KV 空间 ÷ 每请求 KV",
+    "nums": "67.1 GiB 可用；权重 15.0 / 激活 0.91 / 其他 1.9 / KV 49.3 GiB；40.4 万 token、99 请求；FP8 227 请求；70B 四卡 102 请求；80 GB ≈ 74.5 GiB",
+    "pit": "能装下权重不等于能部署：70B 的 FP8 权重刚好装进 80 GB，却没有任何地方放 KV Cache。"
+  },
+  {
+    "no": 72,
+    "title": "推理成本模型",
+    "one": "每百万 token 成本 = 租金 ÷ 吞吐，输出远比输入贵、靠并发降",
+    "points": [
+      "每百万 token 成本 = 每小时租金 ÷ 每小时 token 数 × 10⁶，输入按 prefill 另算。",
+      "输入计算受限，8B 在 H100 每秒约 6.5 万 token；输出吞吐 = b / TPOT。",
+      "效率 60%、$2.5/小时：并发 1 时输出 $5.618/百万，并发 128 时 $0.113。",
+      "输入与并发无关，约 $0.018/百万；并发 128 时输出是输入的 6 倍多。",
+      "一个请求（1024 进 1024 出、并发 128）$0.00013；70B 四卡并发 64 约 $0.94。",
+      "量化和 GQA/MLA 降输出成本，前缀缓存降输入；FP8 输出成本约减半。"
+    ],
+    "formula": "每百万 token 成本 = (租金/小时 ÷ 每小时 token 数) × 10⁶；效率按实测取 60%",
+    "nums": "$2.5/小时；效率 60%；$5.618→$0.113（并发 1→128）；输入 $0.018/百万；$0.00013/请求；70B $0.936/百万输出；估算与实测差 2 倍以内",
+    "pit": "API 价格不等于成本（含利润与闲时浪费）；最便宜是把并发推到显存上限，但那时 TPOT 也最长。"
+  }
+]
